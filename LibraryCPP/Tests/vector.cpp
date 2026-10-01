@@ -1,5 +1,7 @@
 #include <iostream>
 #include "vector.h"
+#include <string>
+using namespace std;
 
 int main()
 {
@@ -13,11 +15,11 @@ int main()
     }
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
-        vector_set(vector, i, i);
+        vector_set(vector, i, to_string(i));
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != to_string(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -45,7 +47,7 @@ int main()
 
     for (size_t i = 0 ; i < vector_size(vector) ; ++i)
     {
-        if (vector_get(vector, i) != (Data)i)
+        if (vector_get(vector, i) != to_string(i))
         {
             std::cout << "Invalid vector element " << i << "\n";
             return 1;
@@ -61,12 +63,12 @@ int main()
     for (int i = 1 ; i <= 10000000 ; ++i)
     {
         vector_resize(vector, i);
-        vector_set(vector, i - 1, i);
+        vector_set(vector, i - 1, to_string(i));
     }
 
     long long sum = 0;
     for (int i = 0 ; i < 10000000 ; ++i)
-        sum += vector_get(vector, i);
+        sum += stoll(vector_get(vector, i));
 
     std::cout << sum << "\n";
 
