@@ -5,13 +5,13 @@ using namespace std;
 
 string tip_tag(const string& tag) {
     string tag_name = "";
-    size_t start = 1;
+    size_t start = 0;
 
-    if (tag.size() >= 3 && tag[0] == '<' && tag[1] == '/') {
-        start = 2;
+    if (!tag.empty() && tag[0] == '/') {
+        start = 1;
     }
 
-    for (size_t i = start; i < tag.size() - 1; i++) {
+    for (size_t i = start; i < tag.size(); i++) {
         if (tag[i] == ' ' || tag[i] == '\t') {
             break;
         }
@@ -39,12 +39,11 @@ int main(int argc, char* argv[]) {
     while (input.get(ch)) {
         if (ch == '<') {
             f = true;
-            current_tag = "<";
+            current_tag = "";
         }
         else if (ch == '>' && f) {
-            current_tag += ">";
             f = false;
-            if (current_tag.size() >= 3 &&  current_tag[1] == '/') {
+            if (!current_tag.empty() &&  current_tag[0] == '/') {
                 if (stack_empty(stack) || (tip_tag(current_tag) != stack_get(stack)) ) {
                     output << "NO" << endl;
                     stack_delete(stack);
@@ -52,7 +51,7 @@ int main(int argc, char* argv[]) {
                 }
                 stack_pop(stack);
             }
-            else if (current_tag.size() >= 2 ) {
+            else if (!current_tag.empty()) {
                 stack_push(stack,tip_tag(current_tag));
             }
 
